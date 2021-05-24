@@ -1,4 +1,8 @@
 package com.example.shemajamebeli
 
-data class ItemModel(val name: String, val lastName: String, val email: String) {
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class ItemModel(var name: String, var lastName: String, var email: String) : Parcelable {
 }

@@ -1,53 +1,85 @@
 package com.example.shemajamebeli
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.GridLayoutManager
+import android.util.Log.d
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.shemajamebeli.databinding.ActivityUserBinding
+import com.example.shemajamebeli.databinding.RecycleViewBinding
 
 class UserActivity : AppCompatActivity() {
 
-    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ItemAdapter
+    private lateinit var binding: RecycleViewBinding
+    private lateinit var binding2: ActivityUserBinding
     private var items = mutableListOf<ItemModel>()
+
+    companion object {
+        const val REQUEST_CODE = 35
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_user)
+
+        binding = RecycleViewBinding.inflate(layoutInflater)
+        binding2 = ActivityUserBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         init()
+
+    }
+
+    private fun addFragment() {
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+
+            val newUser = data?.getParcelableExtra<ItemModel>("newPerson")
+            val count = data?.getIntExtra("count", 0)
+//
+            if (newUser != null && count != null) {
+                items[count] = newUser
+                adapter.notifyItemChanged(count)
+            }
+            d("datacheck", "$newUser")
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun init() {
 
-        adapter = ItemAdapter(items, object: ClickListener {
-            override fun updateClickListener(position: Int) {
-                startActivity(Intent(baseContext, UsersActivity::class.java))
+        adapter = ItemAdapter(items, object : onListener {
+
+            override fun onRemoveListener(count: Int) {
+                items.removeAt(count)
+                adapter.notifyItemRemoved(count)
+                adapter.notifyItemRangeChanged(count, items.size)
+                d("text0", "")
+
             }
 
-            override fun removeClickListener(position: Int) {
-                items.removeAt(position)
-                adapter.notifyItemRemoved(position)            }
+            override fun onUpdateListener(count: Int) {
+                binding2.navHostFragment
+//                val intent = Intent(this@UserActivity, UserFragment::class.java)
+//                intent.putExtra("count", count)
+//                startActivityForResult(intent, REQUEST_CODE)
+
+            }
 
         })
 
-        items.add(ItemModel("giorgi", "ninidze", "ninidze@gmail.com"))
-        items.add(ItemModel("giorgi", "ninidze", "ninidze@gmail.com"))
-        items.add(ItemModel("giorgi", "ninidze", "ninidze@gmail.com"))
-        items.add(ItemModel("giorgi", "ninidze", "ninidze@gmail.com"))
-        items.add(ItemModel("giorgi", "ninidze", "ninidze@gmail.com"))
-        items.add(ItemModel("giorgi", "ninidze", "ninidze@gmail.com"))
-        items.add(ItemModel("giorgi", "ninidze", "ninidze@gmail.com"))
-        items.add(ItemModel("giorgi", "ninidze", "ninidze@gmail.com"))
-        items.add(ItemModel("giorgi", "ninidze", "ninidze@gmail.com"))
-        items.add(ItemModel("giorgi", "ninidze", "ninidze@gmail.com"))
-        items.add(ItemModel("giorgi", "ninidze", "ninidze@gmail.com"))
-        items.add(ItemModel("giorgi", "ninidze", "ninidze@gmail.com"))
+        for (i in 0..4) {
+            items.add(ItemModel("Gela", "Halliday", "ninidze@gmail.com"))
+            items.add(ItemModel("Avtuliko", "Mackay", "ninidze@gmail.com"))
+            items.add(ItemModel("Sandreqsa", "Wade", "ninidze@gmail.com"))
+            items.add(ItemModel("Artura ", "Mosley", "ninidze@gmail.com"))
+            items.add(ItemModel("Anton ", "Pitt", "ninidze@gmail.com"))
+        }
 
-        recyclerView = findViewById(R.id.recycleView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
+        binding.recycleView.layoutManager = LinearLayoutManager(this)
+        binding.recycleView.adapter = adapter
     }
-
 }

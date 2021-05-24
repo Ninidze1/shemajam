@@ -8,4 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="purple_gray">#332934</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="light_gray">#858585</color>
+    <color name="ping">#EF497B</color>
+    <color name="orange">#FF7A51</color>
+    <color name="cyan">#31BDBC</color>
+    <color name="green">#45B64A</color>
 </resources>

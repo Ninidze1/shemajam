@@ -3,20 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/userActivity">
+    app:startDestination="@id/recyclerFragment">
 
+    <fragment
+        android:id="@+id/recyclerFragment"
+        android:name="com.example.shemajamebeli.RecyclerFragment"
+        android:label="recycle_fragment"
+        tools:layout="@layout/recycle_fragment" >
+        <action
+            android:id="@+id/action_recyclerFragment_to_userFragment"
+            app:destination="@id/userFragment" />
+        <argument
+            android:name="userInfo"
+            app:argType="com.example.shemajamebeli.ItemModel"
+            android:defaultValue="@null"
+            app:nullable="true"/>
+    </fragment>
     <fragment
         android:id="@+id/userFragment"
         android:name="com.example.shemajamebeli.UserFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user">
+        tools:layout="@layout/fragment_user" >
         <action
-            android:id="@+id/action_userFragment_to_userActivity"
-            app:destination="@id/userActivity" />
+            android:id="@+id/action_userFragment_to_recyclerFragment"
+            app:destination="@id/recyclerFragment" />
     </fragment>
-    <activity
-        android:id="@+id/userActivity"
-        android:name="com.example.shemajamebeli.UserActivity"
-        android:label="activity_user"
-        tools:layout="@layout/activity_user" />
 </navigation>

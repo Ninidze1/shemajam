@@ -3,21 +3,18 @@ package com.example.shemajamebeli
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log.d
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.shemajamebeli.databinding.FragmentUserBinding
 
 class UserFragment : Fragment() {
 
     private lateinit var binding: FragmentUserBinding
-
-    companion object {
-
-        const val REQUEST_CODE = 35
-
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding  = FragmentUserBinding.inflate(inflater, container, false)
@@ -25,7 +22,6 @@ class UserFragment : Fragment() {
         init()
 
         return binding.root
-
 
     }
 
@@ -37,10 +33,10 @@ class UserFragment : Fragment() {
             val email = binding.emailEditText.text.toString()
 
             val updatedUser = ItemModel(name , lastName, email)
-            startActivity(Intent(context, UserActivity::class.java))
-//            intent.putExtra("newPerson",updatedUser)
-//            setResult(Activity.RESULT_OK, intent)
-//            finish()
+
+            val action = UserFragmentDirections.actionUserFragmentToRecyclerFragment(updatedUser)
+            d("gogogo", "$action")
+            it.findNavController().navigate(action)
 
         }
     }

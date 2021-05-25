@@ -7,15 +7,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shemajamebeli.databinding.RecycleFragmentBinding
+
+
 
 class RecyclerFragment : Fragment() {
 
     private lateinit var binding: RecycleFragmentBinding
     private lateinit var adapter: ItemAdapter
     private var items = mutableListOf<ItemModel>()
+
 
     companion object {
         const val REQUEST_CODE = 35
@@ -43,9 +47,13 @@ class RecyclerFragment : Fragment() {
             }
 
             override fun onUpdateListener(count: Int) {
+                childFragmentManager.setFragmentResultListener("requestKey") { key, bundle ->
 
+
+                }
                 findNavController().navigate(R.id.action_recyclerFragment_to_userFragment)
-                val newUser = RecyclerFragmentArgs.fromBundle(requireArguments()).userInfo
+
+
 
             }
 
